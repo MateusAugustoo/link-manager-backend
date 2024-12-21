@@ -13,7 +13,8 @@ datasource db {
 model User {
   id        String   @id @default(cuid())
   uid       String   @unique
-  photo     String
+  username  String   @unique
+  photo     String?
   email     String   @unique
   name      String?
   createdAt DateTime @default(now())
