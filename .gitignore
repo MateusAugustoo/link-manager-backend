@@ -70,3 +70,6 @@ tmp/
 
 # Windows
 Thumbs.db
+
+# Config files
+config/*.json
