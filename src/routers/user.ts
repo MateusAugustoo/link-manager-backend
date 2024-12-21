@@ -1,6 +1,5 @@
 import z from "zod";
 import { TFastifyInstance } from "../types/TFastifyInstance";
-import { prisma } from "../prisma";
 
 export async function userRouters(app: TFastifyInstance) {
     app.post("/user", {
