@@ -4,7 +4,18 @@ import { fastifySwaggerUi } from '@fastify/swagger-ui'
 import { fastify } from 'fastify'
 import { validatorCompiler, serializerCompiler, ZodTypeProvider, jsonSchemaTransform } from 'fastify-type-provider-zod'
 import { userRouters } from './routers/user'
+import admin from 'firebase-admin'
+import dotenv from 'dotenv'
 
+dotenv.config()
+
+const serviceAccount = JSON.parse(
+  Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_BASE64!, 'base64').toString('utf-8')
+)
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+})
 
 const app = fastify({ logger: true }).withTypeProvider<ZodTypeProvider>()
 
