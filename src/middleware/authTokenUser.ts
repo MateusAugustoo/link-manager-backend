@@ -1,22 +1,17 @@
-import { FastifyRequest, FastifyReply } from 'fastify'
-import admin from 'firebase-admin'
+import { FastifyRequest, FastifyReply } from 'fastify';
+import admin from 'firebase-admin';
 
-interface AuthenticatedRequest extends FastifyRequest {
-  user: any;
-}
-
-export async function authMiddleware(request: AuthenticatedRequest, reply: FastifyReply) {
-  const token = request.headers.authorization?.split(' ')[1]
+export async function authMiddleware(request: FastifyRequest, reply: FastifyReply) {
+  const token = request.headers.authorization?.split(' ')[1];
 
   if (!token) {
-    reply.status(401).send({ message: 'Token not found' })
+    reply.status(401).send({ message: 'Token not found' });
     return;
   }
 
   try {
-    const decodedToken = await admin.auth().verifyIdToken(token)
-    request.user = decodedToken
-
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    (request as any).user = decodedToken; // Use casting para evitar conflitos de tipo.
   } catch (error) {
     reply.status(401).send({ message: 'Invalid token' });
   }
