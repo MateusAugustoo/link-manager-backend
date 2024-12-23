@@ -2,11 +2,13 @@ import z from "zod";
 import { TFastifyInstance } from "../types/TFastifyInstance";
 import { TUser } from "../types/TUser";
 import { createUser } from "../service/user";
+import { authMiddleware } from "../middleware/authTokenUser";
 
 export async function userRouters(app: TFastifyInstance) {
   app.post(
     "/user",
     {
+      preHandler: [authMiddleware],
       schema: {
         body: z.object({
           uid: z.string(),
