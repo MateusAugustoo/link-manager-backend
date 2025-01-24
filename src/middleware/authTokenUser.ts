@@ -11,7 +11,7 @@ export async function authMiddleware(request: FastifyRequest, reply: FastifyRepl
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(token);
-    (request as any).user = decodedToken; // Use casting para evitar conflitos de tipo.
+    (request as any).user = decodedToken;
   } catch (error) {
     reply.status(401).send({ message: 'Invalid token' });
   }
